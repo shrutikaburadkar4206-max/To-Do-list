@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>React To-Do List</title>
+
+<!-- React CDN -->
+<script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #ff85a2; /* Same as box */
+    font-family: Arial;
+  }
+
+  .app {
+    background: #ff85a2; /* Same color */
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 300px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border: 2px solid white; /* To make it visible */
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  input {
+    width: 70%;
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+  }
+
+  button {
+    padding: 8px;
+    margin-left: 5px;
+    cursor: pointer;
+    background: #fff;
+    color: #ff4d73;
+    border: none;
+    border-radius: 5px;
+  }
+
+  button:hover {
+    background: #f1f1f1;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    margin: 10px 0;
+    padding: 8px;
+    background: #ffffff;
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+  }
+</style>
+</head>
+
+<body>
+
+<div id="root"></div>
+
+<script type="text/babel">
+function App() {
+  const [task, setTask] = React.useState("");
+  const [tasks, setTasks] = React.useState([]);
+
+  const addTask = () => {
+    if (task.trim() === "") return;
+    setTasks([...tasks, task]);
+    setTask("");
+  };
+
+  const deleteTask = (index) => {
+    const newTasks = tasks.filter((_, i) => i !== index);
+    setTasks(newTasks);
+  };
+
+  return (
+    <div className="app">
+      <h2>To-Do List</h2>
+
+      <input
+        type="text"
+        placeholder="Enter task"
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+      />
+      <button onClick={addTask}>Add</button>
+
+      <ul>
+        {tasks.map((t, index) => (
+          <li key={index}>
+            {t}
+            <button onClick={() => deleteTask(index)}>❌</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+
+</body>
+</html>
